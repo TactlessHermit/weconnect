@@ -1,0 +1,151 @@
+{% extends 'contacts/webpages/base.html' %}
+
+{% block title %} Contacts {% endblock %}
+
+{% block body %}
+  <h2>CONTACTS</h2>
+  <div class = "container">
+    <div class="btn-group" role = "group">
+      {% comment %} <a class="btn btn-primary" href="{% url 'contacts:search' %}">Search for Actors</a> {% endcomment %}
+      {% comment %} Filter Options {% endcomment %}
+      <a class="btn btn-outline-secondary" href="{% url 'contacts:filter' %}">Multi-Filter</a>
+      <button id="openSexForm" class="btn btn-outline-secondary" onclick="open_button1()">by Sex</button>
+      <button id="openJobForm" class="btn btn-outline-secondary" onclick="open_button2()">by Job</button>
+      <button id="openNatForm" class="btn btn-outline-secondary" onclick="open_button3()">by Nationality</button>
+      {% if filtered %}
+        <a class="btn btn-outline-warning" href="{% url 'contacts:all_contacts' %}">Reset Filters</a>
+      {% endif %}
+    </div>
+  </div>
+  <br>
+  {% if all_contacts %}
+    <ul class="list-group list-group-flush">
+      {% for contact in all_contacts %}
+        <li class="list-group-item">
+          <a href="{% url 'contacts:view_contact' contact.id %}"> {{contact.first_name}} {{contact.last_name}} </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <br>
+    <br>
+    <p>No contacts</p>
+    <br>
+    <br>
+  {% endif %}
+
+  <!-- Filter by Sex Modal -->
+  <div id="sex_modal" class="myModal">
+
+    <!-- Modal content -->
+    <div class="myModal-content">
+      <span class="modalclose" onclick = "close_button1()">&times;</span>
+
+      <!-- Form -->
+      <form action="{% url 'contacts:filter_sex' %}" method="post">
+        {% csrf_token %}
+        <div>
+          <label for="sex">Sex:</label>
+          <select name="sex" id="sex">
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" id="submitSexForm" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Filter by Job Modal -->
+  <div id="job_modal" class="myModal_2">
+
+    <!-- Modal content -->
+    <div class="myModal-content">
+      <span class="modalclose" onclick = "close_button2()">&times;</span>
+
+      <!-- Form -->
+      <form action="{% url 'contacts:filter_job' %}" method="post">
+        {% csrf_token %}
+        <div>
+          <label for="job">Job:</label>
+          <select name="job" id="job">
+            {% if jobs %}
+              {% for job in jobs %}
+                <option value="{{ job }}">{{ job }}</option>
+              {% endfor %}
+            {% else  %}
+            <option value="None">None</option>
+            {% endif %}
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" id="submitJobForm" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Filter by Nationality Modal -->
+  <div id="nat_modal" class="myModal_3">
+
+    <!-- Modal content -->
+    <div class="myModal-content">
+      <span class="modalclose" onclick = "close_button3()">&times;</span>
+
+      <!-- Form -->
+      <form action="{% url 'contacts:filter_nationality' %}" method="post">
+        {% csrf_token %}
+        <div>
+          <label for="nat">Nationality:</label>
+          <select name="nat" id="nat">
+            {% for nat in nationality %}
+              <option value="{{ nat }}">{{ nat }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" id="submitNatForm" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br>
+  <div class="container">
+    <a class="btn btn-primary" href="{% url 'contacts:add_contact' %}">New Contact</a>
+  </div>
+
+  <script>
+    // Open modals on button click and close on span click
+    function open_button1() {
+      document.getElementById('sex_modal').style.display = "block";
+    }
+    function close_button1() {
+      document.getElementById('sex_modal').style.display = "none";
+    }
+
+    function open_button2() {
+      document.getElementById('job_modal').style.display = "block";
+    }
+    function close_button2() {
+      document.getElementById('job_modal').style.display = "none";
+    }
+
+    function open_button3() {
+      document.getElementById('nat_modal').style.display = "block";
+    }
+    function close_button3() {
+      document.getElementById('nat_modal').style.display = "none";
+    }
+
+  </script>
+{% endblock %}

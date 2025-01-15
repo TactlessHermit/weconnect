@@ -1,0 +1,57 @@
+{% extends 'contacts/forms/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <form action="{% url 'contacts:filter' %}" method="post">
+      {% csrf_token %}
+      <label for="sex">Sex:</label>
+      <select name="sex" id="sex">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+      </select> 
+
+      <label for="job">Job:</label>
+      <select name="job" id="job">
+        {% for job in jobs %}
+          <option value="{{job}}">{{job}}</option>
+        {% endfor %}
+      </select> 
+
+      <label for="nationality">Nationality:</label>
+      <select name="nationality" id="nationality">
+        {% for nat in nationality %}
+          <option value="{{nat}}">{{nat}}</option>
+        {% endfor %}
+      </select> 
+
+      <br>
+      
+      <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+      </div>
+    </form>
+  </div>
+  <script>
+    function checkRadio(){
+      if(!checkSex()){}
+    }
+
+    function checkSex(){
+      male_option = document.getElemntById('Male_option');
+      female_option = document.getElemntById('Female_option');
+      
+      if(male_option.checked){
+        return true;
+      }else if(female_option.checked){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+  </script>
+{% endblock %}

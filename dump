@@ -1,0 +1,27 @@
+<p>Sex:</p>
+      <fieldset id="sex_group">
+        <input type="radio" id="Male_option" name="sex_group" value="M">
+        <label for="Male_option">Male</label><br>
+        <input type="radio" id="Female_option" name="sex_group" value="F">
+        <label for="Female_option">Female</label><br>
+      </fieldset>
+
+      <br>
+
+      <p>Nationality:</p>
+      <fieldset id="nat_group">
+        {% for nat in nationality %}
+          <input type="radio" id="{{nat}}" name="nat_group" value="{{nat}}">
+          <label for="{{nat}}">{{nat}}</label><br>
+        {% endfor %}
+      </fieldset> 
+
+      <br>
+
+      <p>Job:</p>
+      <fieldset id="job_group">
+        {% for job in jobs %}
+          <input type="radio" id="{{job}}" name="job_group" value="{{job}}">
+          <label for="{{job}}">{{job}}</label><br>
+        {% endfor %}
+      </fieldset>

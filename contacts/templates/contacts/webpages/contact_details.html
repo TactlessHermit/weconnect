@@ -1,0 +1,22 @@
+{% extends 'contacts/webpages/base.html' %}
+
+{% block title %} {{contact.first_name}} {{contact.last_name}} {% endblock %}
+
+{% block body %}
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"> Name: {{contact.first_name}} {{contact.last_name}} </li>
+    <li class="list-group-item"> Nationality: {{contact.nationality}} </li>
+    <li class="list-group-item"> Email: {{contact.email}} </li>
+    <li class="list-group-item"> Job: {{contact.job}} </li>
+    <li class="list-group-item"> Experience (Years): {{contact.experience}} </li>
+  </ul>
+  <br>
+  {% if contact.sex == 'M' %}
+    <h4>About him...</h4>
+  {% else %}
+    <h4>About her...</h4>
+  {% endif %}
+  <p> {{contact.bio}} </p>
+  <br>
+  <a href="{% url 'contacts:delete_contact' contact.id %}" class="btn btn-primary"> Delete Contact </a>
+{% endblock %}

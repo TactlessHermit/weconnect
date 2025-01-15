@@ -1,0 +1,8 @@
+{% extends 'users/webpages/base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+  <h1>Welcome.</h1>
+  <a class="btn btn-primary" href=" {% url 'user:login' %} ">Log In</a>
+{% endblock %}

@@ -1,0 +1,49 @@
+**********PROJECT*************
+Setup
+-django-admin startproject {project name}
+
+
+Admin
+-py manage.py createsuperuser
+
+
+Users
+-Create users app
+-NO MODELS.PY NEEDED
+-Custom Fields [Check forms.py]
+
+************APPS**************
+Setup
+-py manage.py startapp {app name}
+-Add app to settings.py (config)
+
+
+Model
+-Class representation of database table
+-Import models
+    *Class extends models.Model
+    *CharField, DateField, TextField, etc.
+-Method to define string representation of object (def __str__)
+-Method to redirect upon object creation
+-Make migrations
+-Add model to admin.py
+
+
+Views
+-Handle HTTP requests
+-Generic Views (ListView, DetailView, CreateView, etc.)
+-Custom Views
+    *MUST return render
+
+
+Urls
+-Create urls.py in app
+-Include app urls.py in project urls.py
+-Set 'app_name'
+
+
+Templates
+-Create 'templates' folder under app
+-Create 'app_name' sub-folder (Django looks through ALL template folders so there'll be conflict w/o subfolder)
+-Create sub-folders to group templates (forms, webpages, etc.)
+-Create 'base.html'
