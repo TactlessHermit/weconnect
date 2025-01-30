@@ -1,24 +1,40 @@
 {% extends 'users/webpages/base.html' %}
 
-{% block title %} Home {% endblock %}
+{% block title %}
+  {% if user.is_authenticated %}
+    My Page
+  {% else %}
+    Must Log In
+  {% endif %}
+{% endblock %}
+
 
 {% block body %}
-  <div class="container">
-    <div class="container text-center">
-      <div class="row">
-        <div class="col">
-          Picture Here
-        </div>
-        <div class="col">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"> Name: {{user.first_name}} {{user.last_name}} </li>
-            <li class="list-group-item"> Nationality: {{user.nationality}} </li>
-            <li class="list-group-item"> Email: {{user.email}} </li>
-            <li class="list-group-item"> Job: {{user.job}} </li>
-            <li class="list-group-item"> Experience (Years): {{user.experience}} </li>
-          </ul>
+
+  {% if user.is_authenticated %}
+    <div class="container">
+      <div class="container text-center">
+        {% comment %} <h4>Hello User N.o {{ user.id }}</h4> {% endcomment %}
+        <h4>Hello {{ user.first_name }}</h4>
+        <div class="row">
+          <div class="col">
+            Picture Here
+          </div>
+          <div class="col">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"> Name: {{user.first_name}} {{user.last_name}} </li>
+              <li class="list-group-item"> Nationality: {{user.nationality}} </li>
+              <li class="list-group-item"> Email: {{user.email}} </li>
+              <li class="list-group-item"> Job: {{user.job}} </li>
+              <li class="list-group-item"> Experience (Years): {{user.experience}} </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {% else %}
+    <h4> Oops... You aren't logged in yet</h4>
+  {% endif %}
+
+  
 {% endblock %}

@@ -3,11 +3,11 @@
 {% block title %} Contacts {% endblock %}
 
 {% block body %}
+
   <h2>CONTACTS</h2>
   <div class = "container">
     <div class="btn-group" role = "group">
-      {% comment %} <a class="btn btn-primary" href="{% url 'contacts:search' %}">Search for Actors</a> {% endcomment %}
-      {% comment %} Filter Options {% endcomment %}
+      <!-- Filter Options -->
       <a class="btn btn-outline-secondary" href="{% url 'contacts:filter' %}">Multi-Filter</a>
       <button id="openSexForm" class="btn btn-outline-secondary" onclick="open_button1()">by Sex</button>
       <button id="openJobForm" class="btn btn-outline-secondary" onclick="open_button2()">by Job</button>
@@ -51,6 +51,8 @@
             <option value="F">Female</option>
           </select>
         </div>
+        <br>
+        <br>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
               <button type="submit" id="submitSexForm" class="btn btn-success">Submit</button>
@@ -83,6 +85,8 @@
             {% endif %}
           </select>
         </div>
+        <br>
+        <br>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
               <button type="submit" id="submitJobForm" class="btn btn-success">Submit</button>
@@ -110,6 +114,8 @@
             {% endfor %}
           </select>
         </div>
+        <br>
+        <br>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
               <button type="submit" id="submitNatForm" class="btn btn-success">Submit</button>

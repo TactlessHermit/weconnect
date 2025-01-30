@@ -3,12 +3,14 @@
 {% block title %} {{contact.first_name}} {{contact.last_name}} {% endblock %}
 
 {% block body %}
+
   <ul class="list-group list-group-flush">
     <li class="list-group-item"> Name: {{contact.first_name}} {{contact.last_name}} </li>
     <li class="list-group-item"> Nationality: {{contact.nationality}} </li>
     <li class="list-group-item"> Email: {{contact.email}} </li>
     <li class="list-group-item"> Job: {{contact.job}} </li>
     <li class="list-group-item"> Experience (Years): {{contact.experience}} </li>
+    {% comment %} <li class="list-group-item"> Known by: {{user}} </li> {% endcomment %}
   </ul>
   <br>
   {% if contact.sex == 'M' %}
@@ -18,5 +20,10 @@
   {% endif %}
   <p> {{contact.bio}} </p>
   <br>
-  <a href="{% url 'contacts:delete_contact' contact.id %}" class="btn btn-primary"> Delete Contact </a>
+  <div class="container">
+    <a href="{% url 'contacts:delete_contact' contact.id %}" class="btn btn-primary"> Delete Contact </a>
+    <a href="{% url 'contacts:update_contact' contact.id %}" class="btn btn-primary"> Update Contact </a>
+  </div>
+
+ 
 {% endblock %}

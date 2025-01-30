@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.forms import User
 
 
 # Create your models here.
@@ -24,6 +25,11 @@ class Contact(models.Model):
     bio = models.TextField(
         default='TBA',
         max_length=2000
+    )
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE,
+        null=True
     )
 
     #REDIRECTS ON CONTACT CREATION

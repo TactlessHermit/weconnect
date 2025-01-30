@@ -1,31 +1,66 @@
+import logging
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user
 from django.shortcuts import render
 from django.views import generic
 from .models import Contact
 
 # GENERIC VIEWS
 class all_contacts(generic.ListView):
+    """
+    Description: 
+    Shows contacts registered by current user (ListView)
+    """
+
     model = Contact
     context_object_name = 'all_contacts'
     template_name = 'contacts/webpages/all_contacts.html'
 
-class add_contact(generic.CreateView):
+class add_contact(LoginRequiredMixin, generic.CreateView):
+    """
+    Description: 
+    Allows current user register new contact (CreateView)
+    """
+    
     model = Contact
+
     fields = ['first_name', 'last_name', 'sex', 'nationality',
               'email', 'job', 'experience', 'birthday', 'bio']
+    
+    # Overrides form_valid() to set contact.user to request.user
+    def form_valid(self, form):
+        form.instance.user = get_user(self.request)
+        return super().form_valid(form)
+
     template_name = 'contacts/forms/create_contact.html'
 
 class contact_details(generic.DetailView):
+    """
+    Description: 
+    Shows details of contact registered by current user (DetailView)
+    """
+
     model = Contact
     context_object_name = 'contact'
     template_name = 'contacts/webpages/contact_details.html'
 
 class update_contact(generic.UpdateView):
+    """
+    Description: 
+    Allows current user update details of a registered contact (UpdateView)
+    """
+
     model = Contact
     fields = ['first_name', 'last_name', 'sex', 'nationality',
               'email', 'job', 'experience', 'birthday', 'bio']
     template_name = 'contacts/forms/update_contact.html'
 
 class delete_contact(generic.DeleteView):
+    """
+    Description: 
+    Allows current user delete a registered contact (DeleteView)
+    """
+
     model = Contact
     template_name = 'contacts/forms/contact_confirm_delete.html'
     success_url = '/contacts/'
@@ -33,8 +68,16 @@ class delete_contact(generic.DeleteView):
 
 # CUSTOM VIEWS
 def ViewContacts(request):
+    """
+    Description: 
+    Shows contacts registered by current user
+
+    Parameters:
+    request
+    """
+
     # Get all contacts
-    contacts = Contact.objects.all()
+    contacts = Contact.objects.filter(user = get_user(request))
 
     # Get list of jobs and nationalities for filters
     job_list = getJobFilerOptions
@@ -51,18 +94,41 @@ def ViewContacts(request):
     return render(request, template_name, context)
 
 def getJobFilerOptions():
+    """
+    Description: 
+    Gets options for job filter drop-down list based on all registered contacts regardless of user
+
+    Parameters:
+    request
+    """
+
     jobs = Contact.objects.values_list('job', flat=True).distinct()
     job_list = list(jobs)
 
     return job_list
 
 def getNatFilterOptions():
+    """
+    Description: 
+    Gets options for nationality filter drop-down list based on all registered contacts regardless of user
+
+    Parameters:
+    request
+    """
+
     nationalities = Contact.objects.values_list('nationality', flat=True).distinct()
     nat_list = list(nationalities)
 
     return nat_list
 
 def filterContacts(request):
+    """
+    Description: 
+    Filters user's contacts by job, nationality, AND sex
+
+    Parameters:
+    request
+    """
 
     # Get list of jobs and nationalities for filters
     jobs = Contact.objects.values_list('job', flat=True).distinct()
@@ -77,7 +143,7 @@ def filterContacts(request):
         sex_filter = request.POST.get('sex')
         
         # Get filtered list of contacts
-        contacts = Contact.objects.filter(job = job_filter, nationality = nat_filter, sex = sex_filter)
+        contacts = Contact.objects.filter(job = job_filter, nationality = nat_filter, sex = sex_filter, user = get_user(request))
 
         # Get filter options
         job_list = getJobFilerOptions
@@ -102,11 +168,18 @@ def filterContacts(request):
         return render(request, template_name, context)
     
 def filterBySex(request):
+    """
+    Description: 
+    Filters user's contacts by sex
+
+    Parameters:
+    request
+    """
 
     if request.method == 'POST':
         gender = request.POST['sex']
 
-        contacts = Contact.objects.filter(sex = gender).values()
+        contacts = Contact.objects.filter(sex = gender, user = get_user(request)).values()
 
         # Get list of jobs and nationalities for filters
         job_list = getJobFilerOptions
@@ -123,11 +196,18 @@ def filterBySex(request):
         return render(request, template_name, context)
     
 def filterByJob(request):
+    """
+    Description: 
+    Filters user's contacts by job
+
+    Parameters:
+    request
+    """
 
     if request.method == 'POST':
         job_name = request.POST['job']
 
-        contacts = Contact.objects.filter(job = job_name).values()
+        contacts = Contact.objects.filter(job = job_name, user = get_user(request)).values()
 
         # Get list of jobs and nationalities for filters
         job_list = getJobFilerOptions
@@ -144,11 +224,18 @@ def filterByJob(request):
         return render(request, template_name, context)
     
 def filterByNationality(request):
+    """
+    Description: 
+    Filters user's contacts by nationality
+
+    Parameters:
+    request
+    """
 
     if request.method == 'POST':
         nat_name = request.POST['nat']
 
-        contacts = Contact.objects.filter(nationality = nat_name).values()
+        contacts = Contact.objects.filter(nationality = nat_name, user = get_user(request)).values()
 
         # Get list of jobs and nationalities for filters
         job_list = getJobFilerOptions
