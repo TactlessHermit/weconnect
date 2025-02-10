@@ -1,0 +1,22 @@
+{% extends 'meetings/webpages/base.html' %}
+
+{% block title %} Meeting Details {% endblock %}
+
+{% block body %}
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"> Title: {{meeting.title}} </li>
+    <li class="list-group-item"> Date: {{meeting.date}} </li>
+    <li class="list-group-item"> Time: {{meeting.time}} </li>
+    <li class="list-group-item"> Location: {{meeting.location}} </li>
+    <li class="list-group-item"> Contact: {{meeting.contact.first_name}} {{meeting.contact.last_name}} </li>
+    {% comment %} <li class="list-group-item"> Known by: {{user}} </li> {% endcomment %}
+  </ul>
+  <br>
+  <div class="container">
+    <a href="{% url 'meetings:delete_meeting' meeting.id %}" class="btn btn-primary"> Delete Meeting </a>
+    {% comment %} <a href="{% url 'contacts:update_contact' contact.id %}" class="btn btn-primary"> Update Contact </a> {% endcomment %}
+  </div>
+
+ 
+{% endblock %}

@@ -1,6 +1,6 @@
-{% extends 'contacts/forms/base.html' %}
+{% extends 'meetings/forms/base.html' %}
 
-{% block title %} New Contact {% endblock %}
+{% block title %} New Meeting {% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -8,15 +8,14 @@
         <div class="col-sm-12 col-md-7">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>New Contact</h3>
+                    <h3>New Meeting</h3>
                     {% if error_message %}
                     <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
-                    <form class="" action="/contacts/new" method="post" enctype="multipart/form-data">
+                    <form class="" action="/meetings/new" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                            {% comment %} {% include 'contacts/forms/form_content.html' %} {% endcomment %}
-                            {{ form }}
-                            <div class="form-group">
+                        {{ form }}
+                        <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </div>

@@ -21,6 +21,7 @@
   <p> {{contact.bio}} </p>
   <br>
   <div class="container">
+    <a href="{% url 'meetings:new_meeting' %}" class="btn btn-primary"> Setup Meeting </a>
     <a href="{% url 'contacts:delete_contact' contact.id %}" class="btn btn-primary"> Delete Contact </a>
     <a href="{% url 'contacts:update_contact' contact.id %}" class="btn btn-primary"> Update Contact </a>
   </div>

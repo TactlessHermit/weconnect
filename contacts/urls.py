@@ -18,7 +18,7 @@ from . import views
 app_name = 'contacts'
 
 urlpatterns = [
-    path('add', views.add_contact.as_view(), name='add_contact'),
+    path('new', views.new_contact, name='new_contact'),
     path('<int:pk>', views.contact_details.as_view(), name='view_contact'),
     path('', views.ViewContacts, name='all_contacts'),
     path('update/<int:pk>', views.update_contact.as_view(), name='update_contact'),

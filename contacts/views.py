@@ -1,9 +1,12 @@
 import logging
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import generic
 from .models import Contact
+from .forms import ContactForm
 
 # GENERIC VIEWS
 class all_contacts(generic.ListView):
@@ -67,6 +70,32 @@ class delete_contact(generic.DeleteView):
 
 
 # CUSTOM VIEWS
+def new_contact(request):
+    """
+    Description: 
+    Registers new contact under current user
+
+    Parameters:
+    request
+    """
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.user = get_user(request)
+            contact.sex = form.cleaned_data['gender']
+            contact.save()
+            return redirect(reverse('contacts:all_contacts'))
+        else:
+            return HttpResponse('<h4> MEETING CREATION FAILED </h4>')
+
+    else:
+        form = ContactForm()
+
+    return render(request, 'contacts/forms/create_contact.html', {'form': form})
+
 def ViewContacts(request):
     """
     Description: 

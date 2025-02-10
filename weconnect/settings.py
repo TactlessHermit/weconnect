@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'contacts.apps.ContactsConfig',
     'users.apps.UsersConfig',
+    'meetings.apps.MeetingsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

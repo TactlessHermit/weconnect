@@ -1,0 +1,24 @@
+{% extends 'meetings/webpages/base.html' %}
+
+{% block title %} Meetings {% endblock %}
+
+{% block body %}
+
+    <h2>UPCOMING MEETINGS</h2>
+    {% if all_meetings %}
+    <ul class="list-group list-group-flush">
+        {% for meeting in all_meetings %}
+        <li class="list-group-item">
+            <a href="{% url 'meetings:meeting_details' meeting.id %}"> {{meeting.title}}, {{meeting.date}} </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <br>
+    <br>
+    <p>No Meetings</p>
+    <br>
+    <br>
+    {% endif %}
+
+{% endblock %}
