@@ -13,6 +13,7 @@
         </li>
         {% endfor %}
     </ul>
+    <br>
     {% else %}
     <br>
     <br>
@@ -20,5 +21,8 @@
     <br>
     <br>
     {% endif %}
+    <div class="container">
+        <a href="{% url 'meetings:new_meeting' %}" class="btn btn-primary"> Setup Meeting </a>
+    </div>
 
 {% endblock %}

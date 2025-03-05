@@ -15,7 +15,7 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'nationality', 'birthday', 'sex']
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'nationality', 'birthday', 'sex']
         widgets = {
             'birthday': forms.DateInput(attrs={'type':'date'})
         }

@@ -41,34 +41,36 @@ def register_user(request):
         if form.is_valid(): 
             logger.info("INFO:: Registration data valid.")
             new_user = form.save(commit=False)
+            logger.info("INFO:: Setting email as username.")
+            new_user.username = form.cleaned_data['email']
             new_user.set_password(form.cleaned_data['password2'])
 
             # If username is not the same as email ask for new input
-            logger.info("CHECK:: Ensuring username and email are the same")
             if new_user.username != form.cleaned_data['email']:
                 form = UserRegistrationForm()
-                logger.warning("ISSUE:: Username must be the same as the email. Redirecting to registration page")
-                messages.info(request, "Username must be the same as the email.")
+                # logger.warning("ISSUE:: Username must be the same as the email. Redirecting to registration page")
+                # messages.info(request, "Username must be the same as the email.")
                 return render(request, 'users/registration/register_user.html', {'form': form})
 
             new_user.save()
             logger.info("INFO:: Check successful. New user created and saved.")
 
             # Log in user and redirect to 'My Page'
+            logger.info("INFO:: Attempting to log in New user.")
             email = form.cleaned_data['email']
             password = form.cleaned_data['password2']
             user = authenticate(request, username=email, password=password)
             
             if user is not None:
                 login(request, user)
-                logger.info("INFO:: New user logged in. Redirecting to profile page")
+                logger.info("INFO:: New user logged in successfully. Redirecting to profile page")
                 messages.success(request, "Registered successfully. Welcome.")
                 return redirect(reverse('user:profile'))
             else:
-                logger.error("ERROR:: User Authentication failed")
+                logger.error("ERROR:: User saved but authentication failed. Unable to log in.")
                 return HttpResponse('<h1> ERROR AUTHENTICATING USER!!! </h1><br><p>Password: %s</p>' %password)    
         else:
-            logger.error("ERROR:: Data invalid.")
+            logger.error("ERROR:: Registration data invalid.")
     # Request for webpage
     else:
         form = UserRegistrationForm()

@@ -32,10 +32,10 @@ class Contact(models.Model):
         null=True
     )
 
-    #REDIRECTS ON CONTACT CREATION
+    #REDIRECTS ON CONTACT CREATION VIA CREATEVIEW
     def get_absolute_url(self):
         return reverse('contacts:view_contact', kwargs={'pk': self.pk})
 
-    #STRING REPRESENTATION OF OBJECT
+    #STRING REPRESENTATION OF OBJECT (FOR ADMIN)
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
